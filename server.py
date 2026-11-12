@@ -35,5 +35,23 @@ def get_events():
 # 4. Add the new event to the events list
 # 5. Return the new event with status code 201
 
+@app.route("/events", methods=["POST"])
+def add_events():
+  data = request.get_json(silent=True)
+  
+  if not isinstance(data, dict) or not isinstance(data.get("title"), str) or not data["title"].strip():
+    return jsonify({"error": "Title is required"}), 400
+  
+  new_id = max((event["id"] for event in events), default=0) + 1
+  
+  new_event = {
+    "id": new_id,
+    "title": data["title"].strip()
+  }
+  
+  events.append(new_event)
+  
+  return jsonify(new_event), 201
+
 if __name__ == "__main__":
-    app.run(debug=True)
+  app.run(debug=True)
