@@ -16,6 +16,7 @@ async function fetchEvents() {
 
   // Display the events in the browser console
   console.log("Events from Flask:", events);
+  events.forEach(renderEvent);
 
   } catch (error) {
     console.log("Error fetching events:", error);
@@ -24,3 +25,17 @@ async function fetchEvents() {
 
 // Call the function when the page loads
 fetchEvents();
+
+function renderEvent(event) {
+  // Find the event in HTML
+  const eventList = document.querySelector("#event-list");
+
+  // Create a new list item
+  const li = document.createElement("li");
+
+  // Set text to the event title
+  li.textContent = event.title;
+
+  // Add new list item to webpage
+  eventList.appendChild(li);
+}
